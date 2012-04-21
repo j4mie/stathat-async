@@ -18,7 +18,7 @@ required = ['stathat']
 
 setup(
     name='stathat-async',
-    version='0.0.1',
+    version='0.0.2',
     description='A simple multithreaded async API wrapper for StatHat.com',
     author='Jamie Matthews',
     author_email='jamie.matthews@gmail.com',
