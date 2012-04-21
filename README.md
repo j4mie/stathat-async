@@ -12,7 +12,7 @@ A simple multithreaded async wrapper around Kenneth Reitz's
 
 The calls to `count` and `value` won't block your program while the HTTP
 request to the StatHat API is made. Instead, the requests will be made in a
-subprocess.
+separate thread.
 
 Enjoy!
 
