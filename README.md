@@ -1,6 +1,6 @@
 # stathat-async
 
-A simple multiprocessing-based async wrapper around Kenneth Reitz's
+A simple multithreaded async wrapper around Kenneth Reitz's
 [stathat.py](https://github.com/kennethreitz/stathat.py)
 
 ## Usage
