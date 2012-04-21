@@ -34,6 +34,7 @@ def worker(email, queue):
             stats.value(key, value)
         if command == 'count':
             stats.count(key, value)
+        queue.task_done()
 
 
 class StatHat(object):
