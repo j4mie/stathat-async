@@ -3,7 +3,7 @@
 """
 stathat-async
 
-A simple multiprocessing-based async wrapper around Kenneth Reitz's stathat.py
+A simple multithreaded async wrapper around Kenneth Reitz's stathat.py
 
 Usage:
 
@@ -14,39 +14,35 @@ Usage:
 
 The calls to count and value won't block your program while the HTTP
 request to the StatHat API is made. Instead, the requests will be made in a
-subprocess.
+separate thread.
 
 Enjoy!
 
 """
 
-import multiprocessing
 import stathat
+from Queue import Queue
+from threading import Thread
 
 
-class StatHatWorker(multiprocessing.Process):
+def worker(email, queue):
+    stats = stathat.StatHat(email)
 
-    def __init__(self, email, queue):
-        super(StatHatWorker, self).__init__()
-        self.queue = queue
-        self.stathat = stathat.StatHat(email)
-
-    def run(self):
-        while True:
-            command, key, value = self.queue.get()
-
-            if command == 'value':
-                self.stathat.value(key, value)
-            if command == 'count':
-                self.stathat.count(key, value)
+    while True:
+        command, key, value = queue.get()
+        if command == 'value':
+            stats.value(key, value)
+        if command == 'count':
+            stats.count(key, value)
 
 
 class StatHat(object):
 
     def __init__(self, email):
-        self.queue = multiprocessing.Queue()
-        worker = StatHatWorker(email, self.queue)
-        worker.start()
+        self.queue = Queue()
+        thread = Thread(target=worker, args=(email, self.queue))
+        thread.daemon = True
+        thread.start()
 
     def value(self, key, value):
         self.queue.put(('value', key, value))

@@ -19,7 +19,7 @@ required = ['stathat']
 setup(
     name='stathat-async',
     version='0.0.1',
-    description='A simple multiprocessing-based async API wrapper for StatHat.com',
+    description='A simple multithreaded async API wrapper for StatHat.com',
     author='Jamie Matthews',
     author_email='jamie.matthews@gmail.com',
     url='https://github.com/j4mie/stathat-async',
